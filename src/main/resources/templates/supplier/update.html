@@ -5,6 +5,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"/>
     <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+
+    <script th:inline="text">
+    /*var myCenter=new google.maps.LatLng(51.508742,-0.120850);*/
+    var myCenter=new google.maps.LatLng([[${supplier.places[0].latitude}]],[[${supplier.places[0].longitude}]]);
+
+
+    function initialize() {
+      var mapProp = {
+        center:new google.maps.LatLng(51.508742,-0.120850),
+        zoom:5,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+      };
+      var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      var marker=new google.maps.Marker({position:myCenter});
+      marker.setMap(map);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 </head>
 <body>
 
@@ -29,6 +49,34 @@
         <a role="button" th:href="@{'/'}" class="btn btn-default" name="back" th:text="#{supplier.action.update.btn.back}"/>
         <button type="submit" id="update-btn" class="btn btn-warning" name="update" th:text="#{supplier.action.update.btn.submit}"/>
     </form>
+
+    <table class="table table-striped" th:unless="${#lists.isEmpty(supplier.places)}">
+        <thead>
+        <tr>
+            <th th:text="#{place.id}">id</th>
+            <th th:text="#{place.address}">description</th>
+            <th th:text="#{place.latitude}">site</th>
+            <th th:text="#{place.longitude}">places count</th>
+            <th th:text="#{place.list.btn.modify}">modify</th>
+            <th th:text="#{place.list.btn.delete}">delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="place : ${supplier.places}">
+            <td th:text="${{place.id}}">id</td>
+            <td th:text="${{place.address}}">description</td>
+            <td th:text="${{place.latitude}}">site</td>
+            <td th:text="${{place.longitude}}">site</td>
+            <td>
+                <a role="button" class="btn btn-primary btn-sm" th:href="@{'/update/' + ${place.id}}" th:text="#{place.list.btn.modify}">modify</a>
+            </td>
+            <td>
+                <a role="button" class="btn btn-danger btn-sm" th:href="@{'/delete/' + ${place.id}}" th:text="#{place.list.btn.delete}">modify</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="googleMap" style="width:500px;height:380px;"></div>
 </div>
 
 </body>
