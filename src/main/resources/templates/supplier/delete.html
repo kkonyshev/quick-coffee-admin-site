@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{supplier.action.delete.header}">Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"/>
+    <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container">
+    <h2 th:text="#{supplier.action.delete.header}">Header</h2>
+    <p th:text="#{supplier.action.delete.panel}">Panel description</p>
+
+    <form role="form" th:action="@{'/supplier/'}" th:object="${supplier}" th:method="POST">
+        <input type="text" th:field="*{id}" hidden="true"/>
+        <div class="form-group">
+            <label for="name" th:text="#{supplier.name}"/>
+            <input type="text" class="form-control" id="name" disabled="true" th:field="*{name}"/>
+        </div>
+        <div class="form-group">
+            <label for="description" th:text="#{supplier.description}"/>
+            <input type="text" class="form-control" id="description" disabled="true" th:field="*{description}"/>
+        </div>
+        <div class="form-group">
+            <label for="site" th:text="#{supplier.site}"/>
+            <input type="text" class="form-control" id="site" disabled="true" th:field="*{site}"/>
+        </div>
+        <a role="button" th:href="@{'/'}" class="btn btn-default" name="back" th:text="#{supplier.action.delete.btn.back}"/>
+        <button type="submit" class="btn btn-danger" name="delete" th:text="#{supplier.action.delete.btn.submit}"/>
+    </form>
+</div>
+
+</body>
+</html>
+

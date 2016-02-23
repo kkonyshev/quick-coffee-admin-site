@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{supplier.list.header}">Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"/>
+    <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container">
+    <h2 th:text="#{supplier.list.header}">Header</h2>
+    <p th:text="#{supplier.list.panel}">panel description</p>
+
+    <div class="btn-group" role="group" aria-label="...">
+        <a href="create" role="button" class="btn btn-success" th:text="#{supplier.list.btn.add}">add</a>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(suppliers)}">
+        <thead>
+        <tr>
+            <th th:text="#{supplier.name}">name</th>
+            <th th:text="#{supplier.description}">description</th>
+            <th th:text="#{supplier.site}">site</th>
+            <th th:text="#{supplier.place.count}">places count</th>
+            <th th:text="#{supplier.list.btn.modify}">modify</th>
+            <th th:text="#{supplier.list.btn.delete}">delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sup : ${suppliers}">
+            <td th:text="${{sup.name}}">name</td>
+            <td th:text="${{sup.description}}">description</td>
+            <td th:text="${{sup.site}}">site</td>
+            <td th:text="${{sup.places.size()}}">site</td>
+            <td>
+                <a role="button" class="btn btn-primary btn-sm" th:href="@{'/update/' + ${sup.id}}" th:text="#{supplier.list.btn.modify}">modify</a>
+            </td>
+            <td>
+                <a role="button" class="btn btn-danger btn-sm" th:href="@{'/delete/' + ${sup.id}}" th:text="#{supplier.list.btn.delete}">modify</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

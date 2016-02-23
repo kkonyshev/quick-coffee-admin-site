@@ -11,54 +11,90 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Controller
 public class SupplierController {
 
     @Autowired
     private SupplierService supplierService;
 
-    @RequestMapping("/list")
-    public String list(Model model) {
-        return "suppliers";
+    /*
+    Index
+     */
+
+    @RequestMapping(path = {"/"})
+    public ModelAndView list(Model model) {
+        ModelAndView modelAndView = new ModelAndView("supplier/index");
+        modelAndView.addObject("suppliers", supplierService.getSuppliers());
+        return modelAndView;
     }
 
-    @RequestMapping("/add")
-    public String add(final Supplier supplier) {
-        return "add";
+
+    /*
+    Create
+     */
+
+    @RequestMapping("/create")
+    public ModelAndView createModel(final Supplier supplier) {
+        return new ModelAndView("supplier/create");
     }
 
-    @RequestMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable Long id) {
-        ModelAndView mav = new ModelAndView("update");
-        Supplier supplier = supplierService.get(id).getSupplier();
+    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"create"})
+    public ModelAndView createAction(final Supplier supplier, final BindingResult bindingResult) {
+        //seedStarter.getRows().add(new Row());
+        try {
+            supplierService.create(supplier);
+        } catch (Exception e) {
+            return createModel(supplier);
+        }
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
+    Update
+     */
+
+    @RequestMapping("/update/{id}")
+    public ModelAndView updateModel(@PathVariable Long id) {
+        ModelAndView mav = new ModelAndView("supplier/update");
+        Supplier supplier = supplierService.read(id).getSupplier();
         mav.addObject("supplier", supplier);
         return mav;
     }
 
-    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"add"})
-    public String addRow(final Supplier supplier, final BindingResult bindingResult) {
+    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"update"})
+    public ModelAndView updateAction(final Supplier supplier, final BindingResult bindingResult) {
         //seedStarter.getRows().add(new Row());
-        System.out.println(supplier);
-        supplierService.add(supplier);
-        return "redirect:/list";
+        try {
+            supplierService.update(supplier);
+        } catch (Exception e) {
+            return updateModel(supplier.getId());
+        }
+        return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"modify"})
-    public String modify(final Supplier supplier, final BindingResult bindingResult) {
-        //seedStarter.getRows().add(new Row());
-        System.out.println(supplier);
-        supplierService.update(supplier);
-        return "redirect:/list";
+    /*
+    Delete
+     */
+
+    @RequestMapping("/delete/{id}")
+    public ModelAndView deleteModel(@PathVariable Long id) {
+        ModelAndView mav = new ModelAndView("supplier/delete");
+        Supplier supplier = supplierService.read(id).getSupplier();
+        mav.addObject("supplier", supplier);
+        return mav;
     }
 
-    @RequestMapping("/greeting")
-    public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
+    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"delete"})
+    public ModelAndView deleteAction(final Supplier supplier, final BindingResult bindingResult) {
+        supplierService.delete(supplier.getId());
+        return new ModelAndView("redirect:/");
     }
 
+    /*
     @ModelAttribute("suppliers")
     public List<Supplier> supplierList() {
         return supplierService.getSuppliers();
     }
+    */
 }

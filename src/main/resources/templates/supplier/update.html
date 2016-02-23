@@ -1,18 +1,19 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{supplier.action.add.header}">Title</title>
+    <title th:text="#{supplier.action.update.header}">Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="webjars/jquery/2.0.3/jquery.min.js"/>
-    <link href="webjars/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"/>
+    <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet"/>
 </head>
 <body>
 
 <div class="container">
-    <h2 th:text="#{supplier.action.add.header}">Header</h2>
-    <p th:text="#{supplier.action.add.panel}">Panel description</p>
+    <h2 th:text="#{supplier.action.update.header}">Header</h2>
+    <p th:text="#{supplier.action.update.panel}">Panel description</p>
 
-    <form role="form" action="#" th:action="@{/supplier}" th:object="${supplier}" method="post">
+    <form role="form" th:action="@{'/supplier/'}" th:object="${supplier}" th:method="POST">
+        <input type="text" th:field="*{id}" hidden="true"/>
         <div class="form-group">
             <label for="name" th:text="#{supplier.name}"/>
             <input type="text" class="form-control" id="name" th:field="*{name}"/>
@@ -25,9 +26,11 @@
             <label for="site" th:text="#{supplier.site}"/>
             <input type="text" class="form-control" id="site" th:field="*{site}"/>
         </div>
-        <button type="submit" class="btn btn-default" name="add" th:text="#{supplier.action.add.btn.sumbit}"/>
+        <a role="button" th:href="@{'/'}" class="btn btn-default" name="back" th:text="#{supplier.action.update.btn.back}"/>
+        <button type="submit" id="update-btn" class="btn btn-warning" name="update" th:text="#{supplier.action.update.btn.submit}"/>
     </form>
 </div>
 
 </body>
 </html>
+
