@@ -9,7 +9,15 @@
     <script src="http://maps.googleapis.com/maps/api/js"></script>
 
     <script th:inline="text">
+    /*<![CDATA[*/
+
+    var theList = [[${supplier.places}]]
+    for (i = 0; i < theList.length; i++) {
+        doSomething(theList[i]);
+    }
+
     /*var myCenter=new google.maps.LatLng(51.508742,-0.120850);*/
+
     var myCenter=new google.maps.LatLng([[${supplier.places[0].latitude}]],[[${supplier.places[0].longitude}]]);
 
 
@@ -24,6 +32,8 @@
       marker.setMap(map);
     }
     google.maps.event.addDomListener(window, 'load', initialize);
+
+    /*]]>*/
     </script>
 </head>
 <body>
@@ -32,7 +42,7 @@
     <h2 th:text="#{supplier.action.update.header}">Header</h2>
     <p th:text="#{supplier.action.update.panel}">Panel description</p>
 
-    <form role="form" th:action="@{'/supplier/'}" th:object="${supplier}" th:method="POST">
+    <form role="form" th:action="@{'/supplier/update/'}" th:object="${supplier}" th:method="POST">
         <input type="text" th:field="*{id}" hidden="true"/>
         <div class="form-group">
             <label for="name" th:text="#{supplier.name}"/>
@@ -46,7 +56,7 @@
             <label for="site" th:text="#{supplier.site}"/>
             <input type="text" class="form-control" id="site" th:field="*{site}"/>
         </div>
-        <a role="button" th:href="@{'/'}" class="btn btn-default" name="back" th:text="#{supplier.action.update.btn.back}"/>
+        <a role="button" th:href="@{'/supplier/'}" class="btn btn-default" name="back" th:text="#{supplier.action.update.btn.back}"/>
         <button type="submit" id="update-btn" class="btn btn-warning" name="update" th:text="#{supplier.action.update.btn.submit}"/>
     </form>
 
@@ -76,8 +86,8 @@
         </tr>
         </tbody>
     </table>
-    <div id="googleMap" style="width:500px;height:380px;"></div>
 </div>
+<div class="container" id="googleMap"/>
 
 </body>
 </html>

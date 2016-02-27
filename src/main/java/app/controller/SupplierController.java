@@ -13,6 +13,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 @Controller
+@RequestMapping(path = {"/supplier", "/"})
 public class SupplierController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class SupplierController {
     Index
      */
 
-    @RequestMapping(path = {"/"})
+    @RequestMapping(path = {""})
     public ModelAndView list(Model model) {
         ModelAndView modelAndView = new ModelAndView("supplier/index");
         modelAndView.addObject("suppliers", supplierService.getSuppliers());
@@ -34,12 +35,12 @@ public class SupplierController {
     Create
      */
 
-    @RequestMapping("/create")
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView createModel(final Supplier supplier) {
         return new ModelAndView("supplier/create");
     }
 
-    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"create"})
+    @RequestMapping(value="/create", method = RequestMethod.POST, params={"create"})
     public ModelAndView createAction(final Supplier supplier, final BindingResult bindingResult) {
         //seedStarter.getRows().add(new Row());
         try {
@@ -47,7 +48,7 @@ public class SupplierController {
         } catch (Exception e) {
             return createModel(supplier);
         }
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/supplier");
     }
 
     /*
@@ -62,7 +63,7 @@ public class SupplierController {
         return mav;
     }
 
-    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"update"})
+    @RequestMapping(value="/update", method = RequestMethod.POST, params={"update"})
     public ModelAndView updateAction(final Supplier supplier, final BindingResult bindingResult) {
         //seedStarter.getRows().add(new Row());
         try {
@@ -70,7 +71,7 @@ public class SupplierController {
         } catch (Exception e) {
             return updateModel(supplier.getId());
         }
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/supplier");
     }
 
     /*
@@ -85,10 +86,10 @@ public class SupplierController {
         return mav;
     }
 
-    @RequestMapping(value="/supplier", method = RequestMethod.POST, params={"delete"})
+    @RequestMapping(value="/delete", method = RequestMethod.POST, params={"delete"})
     public ModelAndView deleteAction(final Supplier supplier, final BindingResult bindingResult) {
         supplierService.delete(supplier.getId());
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/supplier");
     }
 
     /*

@@ -12,7 +12,7 @@
     <h2 th:text="#{supplier.action.add.header}">Header</h2>
     <p th:text="#{supplier.action.add.panel}">Panel description</p>
 
-    <form role="form" th:action="@{/supplier}" th:object="${supplier}" method="POST">
+    <form role="form" th:action="@{/supplier/create}" th:object="${supplier}" method="POST">
 
         <div class="form-group">
             <label for="name" th:text="#{supplier.name}"/>
@@ -26,7 +26,7 @@
             <label for="site" th:text="#{supplier.site}"/>
             <input type="text" class="form-control" id="site" th:field="*{site}"/>
         </div>
-        <a role="button" th:href="@{'/'}" class="btn btn-default" name="back" th:text="#{supplier.action.add.btn.back}"/>
+        <a role="button" th:href="@{'/supplier'}" class="btn btn-default" name="back" th:text="#{supplier.action.add.btn.back}"/>
         <button type="submit" class="btn btn-success" name="create" th:text="#{supplier.action.add.btn.submit}"/>
     </form>
 </div>

@@ -3,7 +3,7 @@ package app.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Item {
-    @JsonProperty("id")
+    @JsonProperty("itemId")
     private Long id;
     @JsonProperty("name")
     private String name;
