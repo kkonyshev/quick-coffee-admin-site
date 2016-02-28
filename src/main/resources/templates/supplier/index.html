@@ -31,12 +31,14 @@
             <td th:text="${{sup.name}}">name</td>
             <td th:text="${{sup.description}}">description</td>
             <td th:text="${{sup.site}}">site</td>
-            <td th:text="${{sup.places.size()}}">site</td>
+            <td>
+                <a role="button" class="btn btn-primary btn-sm" th:href="@{'/supplier/' + ${sup.id} + '/place'}" th:text="${{sup.places.size()}}">modify</a>
+            </td>
             <td>
                 <a role="button" class="btn btn-primary btn-sm" th:href="@{'/supplier/update/' + ${sup.id}}" th:text="#{supplier.list.btn.modify}">modify</a>
             </td>
             <td>
-                <a role="button" class="btn btn-danger btn-sm" th:href="@{'/supplier//delete/' + ${sup.id}}" th:text="#{supplier.list.btn.delete}">modify</a>
+                <a role="button" class="btn btn-danger btn-sm" th:href="@{'/supplier/delete/' + ${sup.id}}" th:text="#{supplier.list.btn.delete}">modify</a>
             </td>
         </tr>
         </tbody>

@@ -59,33 +59,6 @@
         <a role="button" th:href="@{'/supplier/'}" class="btn btn-default" name="back" th:text="#{supplier.action.update.btn.back}"/>
         <button type="submit" id="update-btn" class="btn btn-warning" name="update" th:text="#{supplier.action.update.btn.submit}"/>
     </form>
-
-    <table class="table table-striped" th:unless="${#lists.isEmpty(supplier.places)}">
-        <thead>
-        <tr>
-            <th th:text="#{place.id}">id</th>
-            <th th:text="#{place.address}">description</th>
-            <th th:text="#{place.latitude}">site</th>
-            <th th:text="#{place.longitude}">places count</th>
-            <th th:text="#{place.list.btn.modify}">modify</th>
-            <th th:text="#{place.list.btn.delete}">delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="place : ${supplier.places}">
-            <td th:text="${{place.id}}">id</td>
-            <td th:text="${{place.address}}">description</td>
-            <td th:text="${{place.latitude}}">site</td>
-            <td th:text="${{place.longitude}}">site</td>
-            <td>
-                <a role="button" class="btn btn-primary btn-sm" th:href="@{'/update/' + ${place.id}}" th:text="#{place.list.btn.modify}">modify</a>
-            </td>
-            <td>
-                <a role="button" class="btn btn-danger btn-sm" th:href="@{'/delete/' + ${place.id}}" th:text="#{place.list.btn.delete}">modify</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 <div class="container" id="googleMap"/>
 

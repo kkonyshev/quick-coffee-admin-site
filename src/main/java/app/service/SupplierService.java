@@ -87,4 +87,36 @@ public class SupplierService {
         ResponseEntity<PlaceListRes> quote = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, PlaceListRes.class);
         return quote.getBody();
     }
+
+    /*
+
+     */
+
+    public SupplierPlaceGetRes getSupplierPlaces(Long supplierId, Long placeId) {
+        String uri = config.getUrl() + SUPPLIER_PATH + "/" + supplierId + PLACE_PATH + "/" + placeId;
+        HttpEntity requestEntity = entityBuilder.simpleEntity();
+        ResponseEntity<SupplierPlaceGetRes> quote = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, SupplierPlaceGetRes.class);
+        return quote.getBody();
+    }
+
+    public PlaceUpdateRes updatePlace(Long supplierId, Place place) {
+        String uri = config.getUrl() + SUPPLIER_PATH + "/" + supplierId + PLACE_PATH + "/" + place.getId();
+        HttpEntity<Place> requestEntity = entityBuilder.bodyEntity(place);
+        ResponseEntity<PlaceUpdateRes> quote = restTemplate.exchange(uri, HttpMethod.PUT, requestEntity, PlaceUpdateRes.class);
+        return quote.getBody();
+    }
+
+    public PlaceCreateRes createPlace(Long supplierId, Place place) {
+        String uri = config.getUrl() + SUPPLIER_PATH + "/" + supplierId + PLACE_PATH;
+        HttpEntity<Place> requestEntity = entityBuilder.bodyEntity(place);
+        ResponseEntity<PlaceCreateRes> quote = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, PlaceCreateRes.class);
+        return quote.getBody();
+    }
+
+    public PlaceDeleteRes deletePlace(Long supplierId, Long placeId) {
+        String uri = config.getUrl() + SUPPLIER_PATH + "/" + supplierId + PLACE_PATH + "/" + placeId;
+        HttpEntity requestEntity = entityBuilder.simpleEntity();
+        ResponseEntity<PlaceDeleteRes> quote = restTemplate.exchange(uri, HttpMethod.DELETE, requestEntity, PlaceDeleteRes.class);
+        return quote.getBody();
+    }
 }

@@ -1,6 +1,8 @@
 package app.controller;
 
+import app.model.Place;
 import app.model.Supplier;
+import app.model.api.SupplierPlaceGetRes;
 import app.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 @Controller
-@RequestMapping(path = {"/supplier", "/"})
+@RequestMapping(path = {"/supplier"})
 public class SupplierController {
 
     @Autowired
@@ -46,6 +48,7 @@ public class SupplierController {
         try {
             supplierService.create(supplier);
         } catch (Exception e) {
+            e.printStackTrace();
             return createModel(supplier);
         }
         return new ModelAndView("redirect:/supplier");
@@ -55,10 +58,10 @@ public class SupplierController {
     Update
      */
 
-    @RequestMapping("/update/{id}")
-    public ModelAndView updateModel(@PathVariable Long id) {
+    @RequestMapping("/update/{supplierId}")
+    public ModelAndView updateModel(@PathVariable Long supplierId) {
         ModelAndView mav = new ModelAndView("supplier/update");
-        Supplier supplier = supplierService.read(id).getSupplier();
+        Supplier supplier = supplierService.read(supplierId).getSupplier();
         mav.addObject("supplier", supplier);
         return mav;
     }
@@ -78,10 +81,10 @@ public class SupplierController {
     Delete
      */
 
-    @RequestMapping("/delete/{id}")
-    public ModelAndView deleteModel(@PathVariable Long id) {
+    @RequestMapping("/delete/{supplierId}")
+    public ModelAndView deleteModel(@PathVariable Long supplierId) {
         ModelAndView mav = new ModelAndView("supplier/delete");
-        Supplier supplier = supplierService.read(id).getSupplier();
+        Supplier supplier = supplierService.read(supplierId).getSupplier();
         mav.addObject("supplier", supplier);
         return mav;
     }
@@ -98,4 +101,90 @@ public class SupplierController {
         return supplierService.getSuppliers();
     }
     */
+
+    /*
+     */
+
+
+    /*
+    supplier place list
+    model
+     */
+
+    @RequestMapping("/{supplierId}/place")
+    public ModelAndView supplierPlaceModel(@PathVariable Long supplierId) {
+        ModelAndView mav = new ModelAndView("place/index");
+        Supplier supplier = supplierService.read(supplierId).getSupplier();
+        mav.addObject("supplier", supplier);
+        return mav;
+    }
+
+    /*
+    update supplier place
+    model
+     */
+
+    @RequestMapping("/{supplierId}/place/{placeId}/update")
+    public ModelAndView updatePlaceModel(@PathVariable Long supplierId, @PathVariable Long placeId) {
+        ModelAndView mav = new ModelAndView("place/update");
+        SupplierPlaceGetRes placeRes = supplierService.getSupplierPlaces(supplierId, placeId);
+        mav.addObject("supplierId", supplierId);
+        mav.addObject("place", placeRes.getPlace());
+        return mav;
+    }
+
+    @RequestMapping(value="/{supplierId}/place/update", method = RequestMethod.POST, params={"update"})
+    public ModelAndView updatePlaceAction(@PathVariable Long supplierId, final Place place, final BindingResult bindingResult) {
+        //seedStarter.getRows().add(new Row());
+        try {
+            supplierService.updatePlace(supplierId, place);
+        } catch (Exception e) {
+            return updatePlaceModel(supplierId, place.getId());
+        }
+        return new ModelAndView("redirect:/supplier/" + supplierId + "/place");
+    }
+
+
+    /*
+    create new place
+     */
+
+    @RequestMapping(value = "/{supplierId}/place/create", method = RequestMethod.GET)
+    public ModelAndView createPlaceModel(@PathVariable Long supplierId, final Place place) {
+        ModelAndView modelAndView = new ModelAndView("place/create");
+        modelAndView.addObject("supplierId", supplierId);
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/{supplierId}/place/create", method = RequestMethod.POST, params={"create"})
+    public ModelAndView createPlaceAction(@PathVariable Long supplierId, final Place place, final BindingResult bindingResult) {
+        //seedStarter.getRows().add(new Row());
+        try {
+            supplierService.createPlace(supplierId, place);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return createPlaceModel(supplierId, place);
+        }
+        return new ModelAndView("redirect:/supplier/" + supplierId + "/place");
+    }
+
+    @RequestMapping(value = "/{supplierId}/place/{placeId}/delete", method = RequestMethod.GET)
+    public ModelAndView deletePlaceModel(@PathVariable Long supplierId, @PathVariable Long placeId) {
+        ModelAndView modelAndView = new ModelAndView("place/delete");
+        modelAndView.addObject("supplierId", supplierId);
+        modelAndView.addObject("place", supplierService.getSupplierPlaces(supplierId, placeId).getPlace());
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/{supplierId}/place/delete", method = RequestMethod.POST, params={"delete"})
+    public ModelAndView deletePlaceAction(@PathVariable Long supplierId, final Place place, final BindingResult bindingResult) {
+        //seedStarter.getRows().add(new Row());
+        try {
+            supplierService.deletePlace(supplierId, place.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return createPlaceModel(supplierId, place);
+        }
+        return new ModelAndView("redirect:/supplier/" + supplierId + "/place");
+    }
 }

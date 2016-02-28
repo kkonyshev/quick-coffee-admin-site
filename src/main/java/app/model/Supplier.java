@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Supplier {
-    @JsonProperty("supplierid")
+    @JsonProperty("supplierId")
     private Long id;
     @JsonProperty("name")
     private String name;

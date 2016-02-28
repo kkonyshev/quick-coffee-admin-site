@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{place.delete.header}">Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"/>
+    <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container">
+    <h2 th:text="#{place.action.delete.header}">Header</h2>
+    <p th:text="#{place.action.delete.panel}">Panel description</p>
+
+    <form role="form" th:action="@{'/supplier/' + ${supplierId} + '/place/delete'}" th:object="${place}" th:method="POST">
+        <input type="text" th:field="*{id}" hidden="true"/>
+        <div class="form-group">
+            <label for="name" th:text="#{place.name}"/>
+            <input type="text" class="form-control" id="name" disabled="true" th:field="*{name}"/>
+        </div>
+        <div class="form-group">
+            <label for="address" th:text="#{place.address}"/>
+            <input type="text" class="form-control" id="address" disabled="true" th:field="*{address}"/>
+        </div>
+        <div class="form-group">
+            <label for="latitude" th:text="#{place.latitude}"/>
+            <input type="text" width="20" class="form-control" id="latitude" disabled="true" th:field="*{latitude}"/>
+        </div>
+        <div class="form-group">
+            <label for="longitude" th:text="#{place.longitude}"/>
+            <input type="text" width="20" class="form-control" id="longitude" disabled="true" th:field="*{longitude}"/>
+        </div>
+        <a role="button" th:href="@{'/supplier/' + ${supplierId} + '/place'}" class="btn btn-default" name="back" th:text="#{place.action.delete.btn.back}"/>
+        <button type="submit" id="update-btn" class="btn btn-danger" name="delete" th:text="#{place.action.delete.btn.submit}"/>
+    </form>
+</div>
+
+</body>
+</html>

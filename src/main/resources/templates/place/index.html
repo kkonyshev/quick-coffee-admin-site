@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{supplier.list.header}">Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"/>
+    <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container">
+    <h2 th:text="@{#{place.list.header} + ' ' + ${supplier.name}}">Header</h2>
+    <p th:text="#{place.list.panel}">panel description</p>
+
+    <div class="btn-group" role="group" aria-label="...">
+        <a th:href="@{'/supplier'}" role="button" class="btn btn-default" name="back" th:text="#{supplier.action.delete.btn.back}"/>
+        <a th:href="@{'/supplier/update/' + ${supplierId}}" role="button" class="btn btn-primary" name="back" th:text="#{place.action.update.btn.back}"/>
+        <a th:href="@{'/supplier/' + ${supplier.id} + '/place/create'}" role="button" class="btn btn-success" th:text="#{place.action.add.btn}">add</a>
+    </div>
+    <table class="table table-striped" th:unless="${#lists.isEmpty(supplier.places)}">
+        <thead>
+        <tr>
+            <th th:text="#{place.id}">id</th>
+            <th th:text="#{place.name}">description</th>
+            <th th:text="#{place.address}">description</th>
+            <th th:text="#{place.latitude}">site</th>
+            <th th:text="#{place.longitude}">places count</th>
+            <th th:text="#{place.list.btn.modify}">modify</th>
+            <th th:text="#{place.list.btn.delete}">delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="place : ${supplier.places}">
+            <td th:text="${{place.id}}">id</td>
+            <td th:text="${{place.name}}">description</td>
+            <td th:text="${{place.address}}">description</td>
+            <td th:text="${{place.latitude}}">site</td>
+            <td th:text="${{place.longitude}}">site</td>
+            <td>
+                <a role="button" class="btn btn-primary btn-sm" th:href="@{'/supplier/' + ${supplier.id} + '/place/' + ${place.id} + '/update'}" th:text="#{place.list.btn.modify}">modify</a>
+            </td>
+            <td>
+                <a role="button" class="btn btn-danger btn-sm" th:href="@{'/supplier/' + ${supplier.id} + '/place/' + ${place.id} + '/delete'}" th:text="#{place.list.btn.delete}">modify</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
