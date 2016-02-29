@@ -7,7 +7,10 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 /**
  * Created by ka on 28/02/16.
@@ -29,6 +32,9 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
 
         ClientHttpResponse response = execution.execute(request, body);
 
+        String outBody = new BufferedReader(new InputStreamReader(response.getBody())).lines().collect(Collectors.joining("\n"));
+        System.out.println("<<[");
+        System.out.println(outBody);
         return response;
     }
 }
