@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script
+            src="http://maps.googleapis.com/maps/api/js">
+    </script>
+    <title th:text="#{supplier.list.header}">Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"/>
+    <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container">
+    <h2 th:text="@{#{place.list.header} + ' ' + ${supplier.name}}">Header</h2>
+    <p th:text="#{place.list.panel}">panel description</p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group" role="group" aria-label="...">
+                <a th:href="@{'/supplier'}" role="button" class="btn btn-default" name="back" th:text="#{supplier.action.delete.btn.back}"/>
+                <a th:href="@{'/supplier/update/' + ${supplierId}}" role="button" class="btn btn-primary" name="back" th:text="#{place.action.update.btn.back}"/>
+                <a th:href="@{'/supplier/' + ${supplier.id} + '/place/create'}" role="button" class="btn btn-success" th:text="#{place.action.add.btn}">add</a>
+            </div>
+            <table class="table table-striped" th:unless="${#lists.isEmpty(supplierItems)}">
+                <thead>
+                <tr>
+                    <th th:text="#{place.id}">id</th>
+                    <th th:text="#{place.id}">name</th>
+                    <th th:text="#{place.id}">description</th>
+                    <th th:text="#{place.id}">price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${supplierItems}">
+                    <td th:text="${{item.id}}">id</td>
+                    <td th:text="${{item.name}}">name</td>
+                    <td th:text="${{item.description}}">description</td>
+                    <td th:text="${{item.price}}">price</td>
+                    <td>
+                        <a role="button" class="btn btn-primary btn-sm" th:href="@{'/supplier/' + ${supplier.id} + '/item/' + ${item.id} + '/update'}" th:text="#{place.list.btn.modify}">modify</a>
+                    </td>
+                    <td>
+                        <a role="button" class="btn btn-danger btn-sm" th:href="@{'/supplier/' + ${supplier.id} + '/item/' + ${item.id} + '/delete'}" th:text="#{place.list.btn.delete}">modify</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="googleMap" class="col-md-12" style="height:380px;"/>
+    </div>
+</div>
+
+</body>
+</html>

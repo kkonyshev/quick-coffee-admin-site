@@ -1,7 +1,9 @@
 package app.controller;
 
+import app.model.Item;
 import app.model.Place;
 import app.model.Supplier;
+import app.model.api.ItemListRes;
 import app.model.api.SupplierPlaceGetRes;
 import app.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,5 +188,20 @@ public class SupplierController {
             return createPlaceModel(supplierId, place);
         }
         return new ModelAndView("redirect:/supplier/" + supplierId + "/place");
+    }
+
+    /*
+    supplier item list
+    model
+     */
+
+    @RequestMapping("/{supplierId}/item")
+    public ModelAndView supplierItemModel(@PathVariable Long supplierId) {
+        ModelAndView mav = new ModelAndView("item/index");
+        Supplier supplier = supplierService.read(supplierId).getSupplier();
+        List<Item> items = supplierService.getSupplierItems(supplierId).getItems();
+        mav.addObject("supplier", supplier);
+        mav.addObject("supplierItems", items);
+        return mav;
     }
 }

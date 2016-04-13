@@ -20,6 +20,7 @@ public class SupplierService {
 
     public static final String SUPPLIER_PATH = "/supplier";
     public static final String PLACE_PATH = "/place";
+    public static final String ITEM_PATH = "/item";
 
     @Autowired
     private Config config;
@@ -117,6 +118,17 @@ public class SupplierService {
         String uri = config.getUrl() + SUPPLIER_PATH + "/" + supplierId + PLACE_PATH + "/" + placeId;
         HttpEntity requestEntity = entityBuilder.simpleEntity();
         ResponseEntity<PlaceDeleteRes> quote = restTemplate.exchange(uri, HttpMethod.DELETE, requestEntity, PlaceDeleteRes.class);
+        return quote.getBody();
+    }
+
+    /*
+
+     */
+
+    public ItemListRes getSupplierItems(Long supplierId) {
+        String uri = config.getUrl() + SUPPLIER_PATH + "/" + supplierId + ITEM_PATH;
+        HttpEntity requestEntity = entityBuilder.simpleEntity();
+        ResponseEntity<ItemListRes> quote = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, ItemListRes.class);
         return quote.getBody();
     }
 }
